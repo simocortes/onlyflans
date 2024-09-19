@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block 'content' %}
+<div class="container">
+    <h2>Mis Flanes Favoritos</h2>
+    <div class="row">
+        {% for favorito in flanes_favoritos %}
+        <div class="col-6 col-md-3">
+            <div class="card mb-4">
+                <img src="{{ favorito.flan.image_url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ favorito.flan.name }}</h5>
+                    <p class="card-text">{{ favorito.flan.description }}</p>
+                    <p class="card-text">Precio: ${{ favorito.flan.precio }}</p>
+                    <form action="{% url 'toggle_favorito' favorito.flan.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            Eliminar de Favoritos
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No tienes flanes favoritos.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

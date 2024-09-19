@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block 'content' %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="h-100 p-5 text-white bg-dark rounded-3">
+                <h2>Nuestros productos</h2>
+                <p>Onlyflans nace en el 2021 buscando entregar flanes de calidad.</p>
+                <a href="{% url 'about' %}" class="btn btn-outline-light">Conoce más</a>
+            </div>
+        </div>
+        {% for flan in public_flans %}
+        <div class="col-6 col-md-3">
+            <div class="card mb-4">
+                <img src="{{ flan.image_url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ flan.name }}</h5>
+                    <p class="card-text">{{ flan.description }}</p>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">Precio: ${{ flan.precio }}</p>
+                  <form action="{% url 'toggle_favorito' flan.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        {% if flan.id in favoritos_ids %}
+                            Eliminar de Favoritos
+                        {% else %}
+                            Agregar a Favoritos
+                        {% endif %}
+                    </button>
+                  </form>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
